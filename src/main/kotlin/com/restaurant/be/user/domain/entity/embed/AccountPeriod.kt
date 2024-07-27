@@ -1,11 +1,11 @@
 package com.restaurant.be.user.domain.entity.embed
 
-import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 import javax.persistence.Column
+import javax.persistence.Embeddable
 
+@Embeddable
 data class AccountPeriod(
-    @CreatedDate
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime,
 

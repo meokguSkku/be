@@ -80,3 +80,15 @@ data class InvalidLikeCountException(
 data class NotFoundRestaurantException(
     override val message: String = "해당 식당 정보가 존재하지 않습니다."
 ) : ServerException(404, message)
+
+data class TooManyCertifyRequestException(
+    override val message: String = "하루 인증번호 요청 개수를 초과하였습니다. 관리자에게 문의해주세요"
+) : ServerException(400, message)
+
+data class MessageServerException(
+    override val message: String = "인증번호 메시지 전송에 실패했습니다. 다시 시도해주세요"
+) : ServerException(503, message)
+
+data class DuplicateCertificationException(
+    override val message: String = "중복된 인증 요청이 존재합니다. 인증번호를 다시 발급받으세요"
+) : ServerException(409, message)

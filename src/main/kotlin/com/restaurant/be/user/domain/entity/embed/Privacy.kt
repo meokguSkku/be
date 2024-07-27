@@ -9,9 +9,9 @@ data class Privacy(
     @Column(name = "phone_number", nullable = false)
     var phoneNumber: Long,
 
-    @Column(name = "real_name", nullable = false)
-    var realName: String,
+    @Column(name = "real_name")
+    var realName: String?,
 
-    @Column(name = "birth_day", nullable = false)
-    var birthDay: LocalDateTime
+    @Column(name = "birth_day")
+    var birthDay: LocalDateTime?
 )

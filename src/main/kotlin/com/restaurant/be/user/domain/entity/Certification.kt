@@ -8,28 +8,28 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-class Certification {
+class Certification(
     @Id
     @GeneratedValue
     @Column(name = "certification_id")
-    var id: Long? = null
+    var id: Long? = null,
 
     @Column(name = "phone_number")
-    var phoneNumber: Long? = null
+    var phoneNumber: Long? = null,
 
     @Column(name = "certifcation_number", length = 6)
-    var certificationNumber: String? = null
+    var certificationNumber: String? = null,
 
     @CreatedDate
     @Column(name = "created_at")
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "expired_at")
-    var expiredAt: LocalDateTime = createdAt.plusMinutes(5)
+    var expiredAt: LocalDateTime = createdAt.plusMinutes(5),
 
     @Column(name = "valid")
-    var valid: Boolean = true
+    var valid: Boolean = true,
 
     @Column(name = "verified")
     var verified: Boolean = false
-}
+)
