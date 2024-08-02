@@ -1,7 +1,7 @@
-package com.restaurant.be.user.presentation.controller
+package com.restaurant.be.user.presentation.controller.v2
 
 import com.restaurant.be.common.response.CommonResponse
-import com.restaurant.be.user.domain.service.CertifyUserService
+import com.restaurant.be.user.domain.service.v2.CertifyUserService
 import com.restaurant.be.user.presentation.dto.certification.CertifyUserRequest
 import com.restaurant.be.user.presentation.dto.certification.CertifyUserResponse
 import io.swagger.annotations.Api

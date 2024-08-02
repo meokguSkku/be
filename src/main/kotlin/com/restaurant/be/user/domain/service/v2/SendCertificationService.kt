@@ -1,11 +1,11 @@
-package com.restaurant.be.user.domain.service
+package com.restaurant.be.user.domain.service.v2
 
 import com.restaurant.be.common.exception.MessageServerException
 import com.restaurant.be.common.exception.TooManyCertifyRequestException
 import com.restaurant.be.user.presentation.dto.certification.SendCertificationRequest
 import com.restaurant.be.user.presentation.dto.certification.SendCertificationResponse
 import com.restaurant.be.user.presentation.dto.certification.SendMessageResponse
-import com.restaurant.be.user.repository.certification.CertifyUserRepository
+import com.restaurant.be.user.repository.v2.certification.CertifyUserRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,17 +17,15 @@ import kotlin.random.Random
 @Service
 class SendCertificationService(
     private val sendCertificationRepository: CertifyUserRepository,
+    private val webClient: WebClient,
     @Value("\${aligo.key}") private val apiKey: String,
     @Value("\${aligo.userId}") private val userId: String,
     @Value("\${aligo.sender}") private val sender: String
 ) {
-    private val webClient: WebClient = WebClient.builder()
-        .baseUrl("https://apis.aligo.in/send/")
-        .build()
 
     @Transactional
     fun sendCertificationToUser(request: SendCertificationRequest): SendCertificationResponse {
-        val phoneNumber = request.phoneNumber
+        val phoneNumber: Long = request.phoneNumber.toLong()
 
         handleTooManySendMessages(phoneNumber)
         handleExistingCertifications(phoneNumber)

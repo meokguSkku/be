@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull
 data class SendMessageResponse(
     @JsonProperty("result_code")
     @field:NotNull
-    val resultCode: Integer,
+    val resultCode: Int,
 
     @field:NotNull
     val message: String

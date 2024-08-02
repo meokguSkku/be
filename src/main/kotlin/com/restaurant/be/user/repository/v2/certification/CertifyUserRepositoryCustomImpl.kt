@@ -1,8 +1,8 @@
-package com.restaurant.be.user.repository.certification
+package com.restaurant.be.user.repository.v2.certification
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.restaurant.be.user.domain.entity.QCertification.certification
-import org.springframework.data.jpa.domain.Specification.where
+import com.restaurant.be.user.repository.v2.certification.CertifyUserRepository.Companion.MAX_MESSAGE_REQUESTS
 import java.time.LocalDateTime
 import java.util.*
 
@@ -10,11 +10,11 @@ class CertifyUserRepositoryCustomImpl(
     private val queryFactory: JPAQueryFactory
 ) : CertifyUserRepositoryCustom {
 
-    val MAX_REQUESTS: Long = 5
     override fun findWhetherTooManyRequest(phoneNumber: Long): Boolean {
-        return countValidRequests(phoneNumber) >= MAX_REQUESTS
+        return countDayRequests(phoneNumber) >= MAX_MESSAGE_REQUESTS
     }
-    private fun countValidRequests(phoneNumber: Long): Long {
+
+    override fun countDayRequests(phoneNumber: Long): Long {
         val currentTime = LocalDateTime.now()
         val aDayBeforeCurrentTime = currentTime.minusDays(1)
         return queryFactory

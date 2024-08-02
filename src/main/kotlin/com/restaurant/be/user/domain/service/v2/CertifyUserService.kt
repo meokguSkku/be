@@ -1,11 +1,11 @@
-package com.restaurant.be.user.domain.service
+package com.restaurant.be.user.domain.service.v2
 
 import com.restaurant.be.common.exception.DuplicateCertificationException
 import com.restaurant.be.user.domain.entity.Certification
 import com.restaurant.be.user.presentation.dto.certification.CertifyUserRequest
 import com.restaurant.be.user.presentation.dto.certification.CertifyUserResponse
-import com.restaurant.be.user.repository.MemberRepository
-import com.restaurant.be.user.repository.certification.CertifyUserRepository
+import com.restaurant.be.user.repository.v2.MemberRepository
+import com.restaurant.be.user.repository.v2.certification.CertifyUserRepository
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 

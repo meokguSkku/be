@@ -48,7 +48,9 @@ class SecurityConfig(
                 "/swagger-ui/**",
                 "/swagger-resources/**",
                 "/v2/api-docs",
-                "/webjars/**"
+                "/webjars/**",
+
+                "/v2/users/certification/**"
             ).permitAll().anyRequest().authenticated().and()
             .exceptionHandling { it.authenticationEntryPoint(jwtAuthenticationEntryPoint) }
             .apply(
