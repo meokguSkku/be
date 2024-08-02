@@ -9,31 +9,25 @@ import com.ninjasquad.springmockk.MockkBean
 import com.restaurant.be.common.CustomDescribeSpec
 import com.restaurant.be.common.IntegrationTest
 import com.restaurant.be.common.PageDeserializer
-import com.restaurant.be.common.exception.ServerException
-import com.restaurant.be.common.exception.TooManyCertifyRequestException
 import com.restaurant.be.common.response.CommonResponse
-import com.restaurant.be.review.presentation.dto.common.ReviewResponseDto
-import com.restaurant.be.user.presentation.dto.SignInUserResponse
 import com.restaurant.be.user.presentation.dto.certification.SendCertificationResponse
 import com.restaurant.be.user.presentation.dto.certification.SendMessageResponse
 import com.restaurant.be.user.repository.v2.certification.CertifyUserRepository
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-import java.nio.charset.Charset
 import org.springframework.data.domain.Page
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
+import java.nio.charset.Charset
 
 @IntegrationTest
 @Transactional
-class SendCertificationControllerTest (
+class SendCertificationControllerTest(
     private val mockMvc: MockMvc,
     private val certifyUserRepository: CertifyUserRepository,
     @MockkBean private val webClient: WebClient
@@ -55,20 +49,19 @@ class SendCertificationControllerTest (
 
         describe("#send Certification Number To User") {
             it("should successfully send certification number (within limit)") {
-                //given
+                // given
                 val phoneNumber = "01012345678"
                 val requestBody = mapOf("phoneNumber" to phoneNumber)
 
-                //when
+                // when
                 mockMvc.perform(
                     MockMvcRequestBuilders.post("$baseUrl/request")
                         .content(objectMapper.writeValueAsString(requestBody))
                         .contentType("application/json")
-                ).also{
+                ).also {
                     println(it.andReturn().response.contentAsString)
                 }
-
-                //then
+                    // then
                     .andExpect(status().isOk)
             }
 
@@ -97,7 +90,6 @@ class SendCertificationControllerTest (
                 actualResult.message shouldBe "하루 인증번호 요청 개수를 초과하였습니다. 관리자에게 문의해주세요"
             }
         }
-
     }
 
     private fun mockingSendMessage() {
