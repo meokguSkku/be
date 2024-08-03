@@ -7,17 +7,20 @@ import com.restaurant.be.user.presentation.dto.certification.SendCertificationRe
 import com.restaurant.be.user.presentation.dto.certification.SendMessageResponse
 import com.restaurant.be.user.repository.v2.certification.CertifyUserRepository
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
+import java.util.*
 import kotlin.random.Random
 
 @Service
 class SendCertificationService(
     private val sendCertificationRepository: CertifyUserRepository,
     private val webClient: WebClient,
+    private val environment: Environment,
     @Value("\${aligo.key}") private val apiKey: String,
     @Value("\${aligo.userId}") private val userId: String,
     @Value("\${aligo.sender}") private val sender: String
@@ -31,7 +34,7 @@ class SendCertificationService(
         handleExistingCertifications(phoneNumber)
 
         val randomUUID = createRandomUUID()
-        postMessage(phoneNumber.toString(), createMessage(randomUUID), "Y")
+        postMessage(phoneNumber.toString(), createMessage(randomUUID))
             .subscribe {
                     response ->
                 if (response.resultCode < 0) {
@@ -43,6 +46,9 @@ class SendCertificationService(
         return SendCertificationResponse(phoneNumber)
     }
 
+    private fun isDeployment(): Boolean {
+        return Objects.nonNull(environment.activeProfiles)
+    }
     private fun handleTooManySendMessages(phoneNumber: Long) {
         if (sendCertificationRepository.findWhetherTooManyRequest(phoneNumber)) {
             throw TooManyCertifyRequestException()
@@ -71,8 +77,7 @@ class SendCertificationService(
     }
     private fun postMessage(
         receiver: String,
-        msg: String,
-        testmodeYN: String
+        msg: String
     ): Mono<SendMessageResponse> {
         return webClient.post()
             .body(
@@ -81,7 +86,7 @@ class SendCertificationService(
                     .with("sender", sender)
                     .with("receiver", receiver)
                     .with("msg", msg)
-                    .with("testmode_yn", testmodeYN)
+                    .with("testmode_yn", if (isDeployment()) "N" else "Y")
             )
             .retrieve()
             .bodyToMono(SendMessageResponse::class.java)

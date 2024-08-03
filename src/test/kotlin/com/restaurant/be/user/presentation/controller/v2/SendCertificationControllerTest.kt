@@ -118,9 +118,7 @@ class SendCertificationControllerTest(
                         )
                     )
                 ).contentType("application/json")
-            ).also {
-                println(it.andReturn().response.contentAsString)
-            }
+            )
         }
     }
 }
