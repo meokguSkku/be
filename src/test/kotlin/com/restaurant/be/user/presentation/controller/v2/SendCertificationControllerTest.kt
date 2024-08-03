@@ -13,6 +13,7 @@ import com.restaurant.be.common.response.CommonResponse
 import com.restaurant.be.user.presentation.dto.certification.SendCertificationResponse
 import com.restaurant.be.user.presentation.dto.certification.SendMessageResponse
 import com.restaurant.be.user.repository.v2.certification.CertifyUserRepository
+import io.kotest.matchers.collections.shouldHaveSize
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
@@ -63,6 +64,7 @@ class SendCertificationControllerTest(
                 }
                     // then
                     .andExpect(status().isOk)
+                certifyUserRepository.findByPhoneNumberAndValid(phoneNumber.toLong(), true) shouldHaveSize 1
             }
 
             it("should throw TooManyCertifyRequestException when exceeding limit") {

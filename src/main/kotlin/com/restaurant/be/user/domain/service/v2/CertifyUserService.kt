@@ -15,7 +15,8 @@ class CertifyUserService(
     private val memberRepository: MemberRepository
 ) {
     fun certify(request: CertifyUserRequest): CertifyUserResponse {
-        val certifications = sendCertificationRepository.findByPhoneNumberAndValid(request.phoneNumber, true)
+        val phoneNumber = request.phoneNumber.toLong()
+        val certifications = sendCertificationRepository.findByPhoneNumberAndValid(phoneNumber, true)
 
         if (certifications.size > 1 || certifications.isEmpty()) {
             throw DuplicateCertificationException()
@@ -25,8 +26,10 @@ class CertifyUserService(
 
         if (isSameCertificationNumber(certification, request)) {
             val response = validate(certification.expiredAt, LocalDateTime.now())
-            certification.verified = true
-            memberRepository.save(request.toMemberEntity())
+            if (response.isAuthenticated) {
+                certification.verified = true
+                memberRepository.save(request.toMemberEntity())
+            }
             return response
         } else {
             return CertifyUserResponse(

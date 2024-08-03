@@ -14,7 +14,7 @@ data class CertifyUserRequest(
     @field:Pattern(regexp = "^01(?:0|1|[6-9])(\\d{3}|\\d{4})(\\d{4})\$", message = "알맞은 전화번호 형식이 아닙니다.")
     @field:NotBlank(message = "전화번호를 입력해 주세요.")
     @ApiModelProperty(value = "전화번호(하이픈 제외)", example = "01012345678", required = true)
-    val phoneNumber: Long,
+    val phoneNumber: String,
 
     @field:Size(min = 6, max = 6, message = "인증번호 6자리를 정확히 입력해주세요")
     @field:NotBlank(message = "인증번호를 입력해주세요")
@@ -22,7 +22,7 @@ data class CertifyUserRequest(
     val certificationNumber: String
 ) {
     fun toMemberEntity() = Member(
-        privacy = Privacy(phoneNumber = phoneNumber, null, null),
+        privacy = Privacy(phoneNumber = phoneNumber.toLong(), null, null),
         accountPeriod = AccountPeriod(LocalDateTime.now(), null)
     )
 }

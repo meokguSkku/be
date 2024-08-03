@@ -7,6 +7,9 @@ interface CertifyUserRepository : JpaRepository<Certification, Long>, CertifyUse
     fun findByPhoneNumber(phoneNumber: Long): Certification?
 
     fun findByPhoneNumberAndValid(phoneNumber: Long, valid: Boolean): List<Certification>
+
+    fun findByPhoneNumberOrderByCreatedAtDesc(phoneNumber: Long): List<Certification>
+
     companion object {
         const val MAX_MESSAGE_REQUESTS = 5
     }
