@@ -15,7 +15,7 @@ class CertifyUserService(
     private val memberRepository: MemberRepository
 ) {
     fun certify(request: CertifyUserRequest): CertifyUserResponse {
-        val phoneNumber = request.phoneNumber.toLong()
+        val phoneNumber = request.phoneNumber
         val certifications = sendCertificationRepository.findByPhoneNumberAndValid(phoneNumber, true)
 
         if (certifications.size > 1 || certifications.isEmpty()) {

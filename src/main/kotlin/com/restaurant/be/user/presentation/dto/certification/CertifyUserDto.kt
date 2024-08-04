@@ -22,7 +22,7 @@ data class CertifyUserRequest(
     val certificationNumber: String
 ) {
     fun toMemberEntity() = Member(
-        privacy = Privacy(phoneNumber = phoneNumber.toLong(), null, null),
+        privacy = Privacy(phoneNumber = phoneNumber, null, null),
         accountPeriod = AccountPeriod(LocalDateTime.now(), null)
     )
 }

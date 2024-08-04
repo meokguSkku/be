@@ -84,10 +84,10 @@ class CertifyUserControllerTest(
                 actualResult.data!!.isAuthenticated shouldBe true
                 actualResult.data!!.message shouldBe "인증이 완료되었습니다."
 
-                val lastCertification = certifyUserRepository.findByPhoneNumberOrderByCreatedAtDesc(phoneNumber.toLong()).get(0)
+                val lastCertification = certifyUserRepository.findByPhoneNumberOrderByCreatedAtDesc(phoneNumber).get(0)
                 lastCertification.verified shouldBe true
 
-                memberRepository.findByPrivacyPhoneNumber(phoneNumber.toLong()).shouldNotBeNull()
+                memberRepository.findByPrivacyPhoneNumber(phoneNumber).shouldNotBeNull()
             }
 
             it("fail certify user when certification number is not valid") {
@@ -129,15 +129,15 @@ class CertifyUserControllerTest(
                 actualResult.data!!.isAuthenticated shouldBe false
                 actualResult.data!!.message shouldBe "인증번호가 일치하지 않습니다."
 
-                val lastCertification = certifyUserRepository.findByPhoneNumberOrderByCreatedAtDesc(phoneNumber.toLong()).get(0)
+                val lastCertification = certifyUserRepository.findByPhoneNumberOrderByCreatedAtDesc(phoneNumber).get(0)
                 lastCertification.verified shouldBe false
-                memberRepository.findByPrivacyPhoneNumber(phoneNumber.toLong()).shouldBeNull()
+                memberRepository.findByPrivacyPhoneNumber(phoneNumber).shouldBeNull()
             }
 
             it("fail certify user when certification number expired") {
                 // given
                 val certificationRequest = Certification(
-                    phoneNumber = phoneNumber.toLong(),
+                    phoneNumber = phoneNumber,
                     certificationNumber = registeredUUID,
                     createdAt = LocalDateTime.now().minusMinutes(5)
                 )
@@ -178,16 +178,16 @@ class CertifyUserControllerTest(
                 actualResult.data!!.isAuthenticated shouldBe false
                 actualResult.data!!.message shouldBe "유효시간이 지난 인증번호입니다. 다시 발급 받아 주세요"
 
-                val lastCertification = certifyUserRepository.findByPhoneNumberOrderByCreatedAtDesc(phoneNumber.toLong()).get(0)
+                val lastCertification = certifyUserRepository.findByPhoneNumberOrderByCreatedAtDesc(phoneNumber).get(0)
                 lastCertification.verified shouldBe false
-                memberRepository.findByPrivacyPhoneNumber(phoneNumber.toLong()).shouldBeNull()
+                memberRepository.findByPrivacyPhoneNumber(phoneNumber).shouldBeNull()
             }
         }
     }
 
     private fun setUpCertification(phoneNumber: String, registeredUUID: String) {
         val certificationRequest = Certification(
-            phoneNumber = phoneNumber.toLong(),
+            phoneNumber = phoneNumber,
             certificationNumber = registeredUUID
         )
         certifyUserRepository.save(certificationRequest)

@@ -4,5 +4,5 @@ import com.restaurant.be.user.domain.entity.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface MemberRepository : JpaRepository<Member, Long> {
-    fun findByPrivacyPhoneNumber(phoneNumber: Long): Member?
+    fun findByPrivacyPhoneNumber(phoneNumber: String): Member?
 }

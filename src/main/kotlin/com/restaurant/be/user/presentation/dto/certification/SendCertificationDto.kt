@@ -16,7 +16,7 @@ data class SendCertificationRequest (
 ) {
     fun toEntity(certificationNumber: String): Certification {
         return Certification(
-            phoneNumber = phoneNumber.toLong(),
+            phoneNumber = phoneNumber,
             certificationNumber = certificationNumber
         )
     }
@@ -24,5 +24,5 @@ data class SendCertificationRequest (
 
 data class SendCertificationResponse (
     @Schema(description = "인증번호 송신 전화번호")
-    val phoneNumber: Long
+    val phoneNumber: String
 )

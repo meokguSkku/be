@@ -15,7 +15,7 @@ class Certification(
     var id: Long? = null,
 
     @Column(name = "phone_number")
-    var phoneNumber: Long? = null,
+    var phoneNumber: String? = null,
 
     @Column(name = "certifcation_number", length = 6)
     var certificationNumber: String? = null,

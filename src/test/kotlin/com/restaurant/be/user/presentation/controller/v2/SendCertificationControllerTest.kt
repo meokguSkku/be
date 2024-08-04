@@ -64,14 +64,14 @@ class SendCertificationControllerTest(
                 }
                     // then
                     .andExpect(status().isOk)
-                certifyUserRepository.findByPhoneNumberAndValid(phoneNumber.toLong(), true) shouldHaveSize 1
+                certifyUserRepository.findByPhoneNumberAndValid(phoneNumber, true) shouldHaveSize 1
             }
 
             it("should throw TooManyCertifyRequestException when exceeding limit") {
                 // given
                 val phoneNumber = "01012345678"
                 sendUpToMaxRequests(phoneNumber)
-                certifyUserRepository.countDayRequests(phoneNumber.toLong()) shouldBe MAX_REQUESTS
+                certifyUserRepository.countDayRequests(phoneNumber) shouldBe MAX_REQUESTS
 
                 // when
                 val result = mockMvc.perform(
@@ -98,15 +98,17 @@ class SendCertificationControllerTest(
         val requestBodyUriSpec = mockk<WebClient.RequestBodyUriSpec>()
         val requestBodySpec = mockk<WebClient.RequestBodySpec>()
         val responseSpec = mockk<WebClient.ResponseSpec>()
+        val response = SendMessageResponse(
+            0,
+            "Success"
+        )
+        val responseToString = objectMapper.writeValueAsString(response)
 
         every { webClient.post() } returns requestBodyUriSpec
         every { requestBodyUriSpec.body(any()) } returns requestBodySpec
         every { requestBodySpec.retrieve() } returns responseSpec
-        every { responseSpec.bodyToMono(SendMessageResponse::class.java) } returns Mono.just(
-            SendMessageResponse(
-                0,
-                "Success"
-            )
+        every { responseSpec.bodyToMono(String::class.java) } returns Mono.just(
+            responseToString
         )
     }
 
