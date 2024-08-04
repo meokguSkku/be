@@ -46,6 +46,7 @@ dependencies {
     implementation("mysql:mysql-connector-java")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
@@ -91,6 +92,7 @@ dependencies {
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("com.ninja-squad:springmockk:3.1.0")
 
     // TestContainers
     testImplementation("org.testcontainers:testcontainers:1.17.1")

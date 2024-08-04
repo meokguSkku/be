@@ -47,3 +47,8 @@ es:
 
 discord:
   monitor: ${DISCORD_MONITOR:https:test}
+
+aligo:
+  key: 123456789
+  userId: 11111
+  sender: 1111
