@@ -23,7 +23,6 @@ import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
 import java.security.Principal
 
-@Configuration
 @EnableSwagger2
 class SwaggerConfig(
     private val typeResolver: TypeResolver
